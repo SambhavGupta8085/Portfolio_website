@@ -649,21 +649,24 @@
             </div>
           </div>
 
-          <form id="contactForm" class="reveal glass rounded-3xl p-5 sm:p-7">
-            <div class="grid gap-4">
-              <label class="text-[10px] font-mono text-slate-500">NAME
-                <input required name="name" class="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none focus:border-cyan-300/40" placeholder="Your name">
-              </label>
-              <label class="text-[10px] font-mono text-slate-500">EMAIL
-                <input required type="email" name="email" class="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none focus:border-cyan-300/40" placeholder="you@example.com">
-              </label>
-              <label class="text-[10px] font-mono text-slate-500">MESSAGE
-                <textarea required name="message" rows="6" class="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none focus:border-cyan-300/40 resize-none" placeholder="Tell me about the problem you're solving..."></textarea>
-              </label>
-              <button class="mt-1 rounded-xl bg-cyan-300 text-slate-950 px-5 py-3.5 text-sm font-bold hover:bg-cyan-200 transition" type="submit">Send Message →</button>
-              <p id="formNote" class="text-[10px] text-slate-600">Messages are prepared for <span class="text-cyan-200">sanskargupta181@gmail.com</span>. For direct server-side delivery without opening an email app, connect a form service such as Formspree or Web3Forms.</p>
-            </div>
-          </form>
+          <div class="reveal glass rounded-3xl p-5 sm:p-7 flex flex-col justify-center min-h-[300px]">
+            <p class="text-[10px] font-mono uppercase tracking-[.18em] text-slate-500">Get in touch</p>
+            <h3 class="mt-4 text-2xl sm:text-3xl font-display font-extrabold">Have a project or opportunity?</h3>
+            <p class="mt-4 text-sm leading-7 text-slate-500">
+              Send me a message through the contact form and I’ll get back to you.
+            </p>
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLScgW5HeIxQ6hVZTlCy5FaYqQ7ZaQLk-QfpcdtVzrQpVTypUCQ/viewform?usp=pp_url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-7 inline-flex w-fit items-center gap-2 rounded-xl bg-cyan-300 text-slate-950 px-6 py-3.5 text-sm font-bold hover:bg-cyan-200 transition"
+            >
+              Contact Me <span>↗</span>
+            </a>
+            <p class="mt-4 text-[10px] text-slate-600">
+              Opens my Google Contact Form.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -803,23 +806,8 @@
     }));
 
     // Static-site contact form: mailto fallback
-    document.getElementById('contactForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const form = e.currentTarget;
-      const data = new FormData(form);
-      const name = String(data.get('name') || '').trim();
-      const email = String(data.get('email') || '').trim();
-      const message = String(data.get('message') || '').trim();
-      const subject = encodeURIComponent(`Portfolio enquiry from ${name}`);
-      const body = encodeURIComponent(`Name: ${name}
-Email: ${email}
+    <script>
 
-Message:
-${message}`);
-      window.location.href = `mailto:sanskargupta181@gmail.com?subject=${subject}&body=${body}`;
-      document.getElementById('formNote').textContent = 'Your email client is opening with the message addressed to sanskargupta181@gmail.com.';
-      form.reset();
-    });
-  </script>
+</script>
 </body>
 </html>
