@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#030712">
+  <meta name="description" content="Sambhav Gupta — Data Science, AI/ML, Data Engineering and Research Portfolio.">
+  <title>Sambhav Gupta — Data Science · AI/ML · Data Engineering</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN: this version runs immediately without a build step. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['DM Mono', 'monospace']
+          },
+          colors: {
+            ink: '#030712',
+            cyanx: '#22d3ee',
+            indigox: '#818cf8',
+            emeraldx: '#34d399'
+          },
+          boxShadow: {
+            glow: '0 0 60px rgba(34,211,238,.12)',
+            card: '0 20px 70px rgba(0,0,0,.35)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 15% 5%, rgba(34,211,238,.06), transparent 30%),
+        radial-gradient(circle at 85% 30%, rgba(129,140,248,.07), transparent 32%),
+        #030712;
+      color: #e5e7eb;
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+    }
+    ::selection { background: rgba(34,211,238,.28); color: white; }
+    .glass { background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.09); backdrop-filter: blur(18px); }
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(to bottom, black, transparent 82%);
+    }
+    .code-bg { opacity: .11; filter: blur(.15px); }
+    .code-line { white-space: nowrap; font: 500 12px/2 DM Mono, monospace; color: #64748b; }
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .75s ease, transform .75s ease; }
+    .reveal.show { opacity: 1; transform: translateY(0); }
+    .tilt { transform-style: preserve-3d; transition: transform .2s ease; }
+    .shine { position: relative; overflow: hidden; }
+    .shine:after {
+      content:""; position:absolute; inset:-80% -20%;
+      background: linear-gradient(110deg, transparent 40%, rgba(255,255,255,.08) 50%, transparent 60%);
+      transform: translateX(-80%) rotate(8deg);
+      transition: transform .8s ease;
+      pointer-events:none;
+    }
+    .shine:hover:after { transform: translateX(80%) rotate(8deg); }
+    .status-dot { animation: pulseDot 1.8s infinite; }
+    @keyframes pulseDot { 0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,.5)} 50%{box-shadow:0 0 0 7px rgba(52,211,153,0)} }
+    .float { animation: float 5s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0) rotateX(0)} 50%{transform:translateY(-9px) rotateX(2deg)} }
+    .marquee { display:flex; width:max-content; animation: marquee 28s linear infinite; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+    .orb { filter: blur(55px); animation: drift 12s ease-in-out infinite alternate; }
+    @keyframes drift { from{transform:translate(0,0)} to{transform:translate(35px,-20px)} }
+    .phone-shell { transform: perspective(900px) rotateY(-13deg) rotateX(5deg) rotateZ(1deg); }
+    .laptop-shell { transform: perspective(1000px) rotateY(9deg) rotateX(3deg); }
+    .dashboard-bar { animation: bar 1.4s ease both; transform-origin: left; }
+    @keyframes bar { from{transform:scaleX(0)} to{transform:scaleX(1)} }
+    .scanline { background: linear-gradient(to bottom, transparent, rgba(34,211,238,.09), transparent); animation: scan 3.5s linear infinite; }
+    @keyframes scan { from{transform:translateY(-100%)} to{transform:translateY(700%)} }
+    .nav-link.active { color: #67e8f9; }
+    .project-filter.active { background: rgba(34,211,238,.11); border-color: rgba(34,211,238,.4); color:#a5f3fc; }
+    .modal { opacity:0; pointer-events:none; transition:opacity .25s ease; }
+    .modal.open { opacity:1; pointer-events:auto; }
+    .modal-panel { transform: translateY(15px) scale(.98); transition:transform .25s ease; }
+    .modal.open .modal-panel { transform:none; }
+  </style>
+</head>
+
+<body>
+  <div class="fixed inset-0 pointer-events-none grid-bg z-0"></div>
+  <div class="fixed -top-32 -left-20 w-80 h-80 bg-cyan-400/10 rounded-full orb pointer-events-none"></div>
+  <div class="fixed top-1/3 -right-32 w-96 h-96 bg-indigo-500/10 rounded-full orb pointer-events-none"></div>
+
+  <!-- NAV -->
+  <header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
+      <div class="glass rounded-2xl px-4 sm:px-5 py-3 flex items-center justify-between shadow-card">
+        <a href="#home" class="font-mono text-sm tracking-tight text-slate-200">
+          Sambhav<span class="text-cyan-300">.dev</span>
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 ml-1 align-middle status-dot"></span>
+        </a>
+
+        <nav class="hidden lg:flex items-center gap-7 text-xs text-slate-400 font-medium">
+          <a class="nav-link hover:text-white transition" href="#about">About</a>
+          <a class="nav-link hover:text-white transition" href="#expertise">Expertise</a>
+          <a class="nav-link hover:text-white transition" href="#projects">Projects</a>
+          <a class="nav-link hover:text-white transition" href="#research">Research</a>
+          <a class="nav-link hover:text-white transition" href="#experience">Experience</a>
+        </nav>
+
+        <div class="hidden sm:flex items-center gap-3">
+          <a href="mailto:sanskargupta181@gmail.com" class="hidden xl:inline text-[10px] font-mono text-slate-500 hover:text-cyan-200 transition">sanskargupta181@gmail.com</a>
+          <a href="https://in.linkedin.com/in/sambhavgupta181" target="_blank" class="hidden lg:inline text-[10px] font-mono text-slate-500 hover:text-cyan-200 transition">LinkedIn ↗</a>
+          <a href="https://github.com/SambhavGupta8085" target="_blank" class="hidden lg:inline text-[10px] font-mono text-slate-500 hover:text-cyan-200 transition">GitHub ↗</a>
+          <span class="hidden md:inline text-[10px] font-mono text-emerald-300/80">AVAILABLE</span>
+          <a href="#contact" class="rounded-xl bg-white text-slate-950 px-4 py-2 text-xs font-bold hover:bg-cyan-100 transition">Get in Touch</a>
+        </div>
+
+        <button id="menuBtn" class="lg:hidden glass rounded-xl p-2.5" aria-label="Open menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <div id="mobileMenu" class="hidden mt-2 glass rounded-2xl p-3">
+        <a class="mobile-link block px-3 py-3 text-sm text-slate-300" href="#about">About</a>
+        <a class="mobile-link block px-3 py-3 text-sm text-slate-300" href="#expertise">Expertise</a>
+        <a class="mobile-link block px-3 py-3 text-sm text-slate-300" href="#projects">Projects</a>
+        <a class="mobile-link block px-3 py-3 text-sm text-slate-300" href="#research">Research</a>
+        <a class="mobile-link block px-3 py-3 text-sm text-slate-300" href="#experience">Experience</a>
+        <a class="mobile-link block px-3 py-3 text-sm font-semibold text-cyan-300" href="#contact">Get in Touch →</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative z-10">
+    <!-- HERO -->
+    <section id="home" class="min-h-screen pt-32 pb-20 flex items-center relative overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute left-1/2 top-[28%] -translate-x-1/2 w-[42rem] h-[20rem] bg-cyan-400/[.045] blur-[100px] rounded-full"></div>
+        <div class="absolute left-[8%] top-[45%] w-64 h-64 bg-indigo-500/[.04] blur-[80px] rounded-full"></div>
+      </div>
+
+      <div class="mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 relative">
+        <div class="max-w-5xl mx-auto text-center reveal">
+          <div class="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/5 px-3.5 py-2 text-[10px] font-mono text-cyan-200 mb-7">
+            <span>👋</span> Data Science & AI/ML Specialist
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 status-dot"></span>
+          </div>
+
+          <h1 class="font-display text-6xl sm:text-7xl md:text-8xl lg:text-[7.7rem] font-extrabold tracking-[-0.075em] leading-[.86] text-white">
+            Hi, I'm
+            <span class="block mt-3 bg-gradient-to-r from-white via-cyan-200 to-indigo-300 bg-clip-text text-transparent">Sambhav Gupta.</span>
+          </h1>
+
+          <p class="mt-8 mx-auto max-w-3xl text-base sm:text-lg md:text-xl leading-relaxed text-slate-400">
+            I build intelligent data products, machine-learning systems and research-driven solutions across
+            <span class="text-slate-200">Data Science, AI/ML, LLM workflows and Data Engineering.</span>
+          </p>
+
+          <p class="mt-4 text-xs sm:text-sm font-mono text-slate-600">
+            B.Tech AI/ML · LLM Post-Training · Research · Data Engineering
+          </p>
+
+          <div class="mt-8 flex flex-wrap justify-center gap-3">
+            <a href="#projects" class="group rounded-xl bg-cyan-300 text-slate-950 px-5 py-3 text-sm font-bold hover:bg-cyan-200 transition">
+              Explore My Work <span class="inline-block group-hover:translate-x-1 transition">→</span>
+            </a>
+            <a href="assets/Sambhav-Gupta-Resume.pdf" target="_blank" class="rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:border-cyan-300/30 transition">
+              Download Resume ↓
+            </a>
+          </div>
+
+          <!-- developer-style skill strip -->
+          <div class="mt-12 flex flex-wrap justify-center gap-2.5 font-mono text-[9px]">
+            <span class="rounded-lg border border-cyan-300/15 bg-cyan-300/[.04] px-3 py-2 text-cyan-200">Python</span>
+            <span class="rounded-lg border border-white/10 bg-white/[.025] px-3 py-2 text-slate-400">SQL</span>
+            <span class="rounded-lg border border-indigo-300/15 bg-indigo-300/[.04] px-3 py-2 text-indigo-200">TensorFlow</span>
+            <span class="rounded-lg border border-white/10 bg-white/[.025] px-3 py-2 text-slate-400">OpenCV</span>
+            <span class="rounded-lg border border-emerald-300/15 bg-emerald-300/[.04] px-3 py-2 text-emerald-200">LangChain</span>
+            <span class="rounded-lg border border-white/10 bg-white/[.025] px-3 py-2 text-slate-400">PostgreSQL</span>
+            <span class="rounded-lg border border-white/10 bg-white/[.025] px-3 py-2 text-slate-400">Power BI</span>
+            <span class="rounded-lg border border-white/10 bg-white/[.025] px-3 py-2 text-slate-400">SVM</span>
+          </div>
+        </div>
+
+        <!-- floating code artifacts around centered name -->
+        <div class="hidden lg:block absolute left-0 top-[72%] -translate-y-1/2 glass rounded-2xl p-4 w-56 opacity-70">
+          <div class="flex items-center justify-between border-b border-white/5 pb-2">
+            <span class="font-mono text-[8px] text-slate-600">skills.py</span><span class="text-[8px] text-emerald-300">●</span>
+          </div>
+          <div class="mt-3 font-mono text-[9px] leading-5 text-slate-500">
+            <span class="text-fuchsia-300">skills</span> = [<br>
+            &nbsp;&nbsp;<span class="text-amber-200">"Python"</span>,<br>
+            &nbsp;&nbsp;<span class="text-amber-200">"SQL"</span>,<br>
+            &nbsp;&nbsp;<span class="text-amber-200">"Machine Learning"</span>,<br>
+            &nbsp;&nbsp;<span class="text-amber-200">"LLMs"</span><br>
+            ]
+          </div>
+        </div>
+
+        <div class="hidden lg:block absolute right-0 top-[72%] -translate-y-1/2 glass rounded-2xl p-4 w-60 opacity-70">
+          <div class="font-mono text-[8px] text-slate-600">model_pipeline.py</div>
+          <div class="mt-3 font-mono text-[9px] leading-5">
+            <span class="text-fuchsia-300">model</span> = train(data)<br>
+            <span class="text-fuchsia-300">result</span> = evaluate(model)<br>
+            <span class="text-slate-600"># validation</span><br>
+            <span class="text-emerald-300">accuracy</span> = <span class="text-cyan-200">91.38%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IDE AMBIENT STRIP -->
+    <section class="border-y border-white/5 bg-white/[.015] overflow-hidden">
+      <div class="marquee py-3 gap-8 font-mono text-[10px] text-slate-600">
+        <span>import pandas as pd</span><span>→</span><span>SELECT * FROM data</span><span>→</span><span>model.fit(X_train, y_train)</span><span>→</span><span>embedding → retrieval → generation</span>
+        <span>import pandas as pd</span><span>→</span><span>SELECT * FROM data</span><span>→</span><span>model.fit(X_train, y_train)</span><span>→</span><span>embedding → retrieval → generation</span>
+      </div>
+    </section>
+
+    <!-- ABOUT + EXPERTISE -->
+    <section id="about" class="py-28 sm:py-36">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="reveal max-w-4xl">
+          <p class="font-mono text-[10px] uppercase tracking-[.2em] text-cyan-300/80">01 / About</p>
+          <h2 class="mt-4 font-display text-4xl sm:text-5xl font-extrabold tracking-[-.04em]">
+            I like turning<br><span class="text-slate-500">raw data into systems.</span>
+          </h2>
+          <p class="mt-7 max-w-3xl text-slate-400 leading-7 text-sm">
+            My work sits at the intersection of analytics, machine learning, AI applications and practical engineering.
+            I enjoy taking an unclear problem, structuring the data, building a solution and measuring whether it actually works.
+          </p>
+        </div>
+
+        <div id="expertise" class="mt-12 grid md:grid-cols-2 xl:grid-cols-4 gap-0 reveal">
+          <article class="border border-white/20 bg-[#15161b] p-6 min-h-[300px] relative group hover:bg-[#191a20] transition">
+            <div class="flex items-start gap-4">
+              <div class="w-11 h-11 shrink-0 rounded-xl border border-cyan-300/20 bg-cyan-300/[.04] flex items-center justify-center text-cyan-200">
+                <span class="text-xl">▣</span>
+              </div>
+              <h3 class="text-xl font-extrabold leading-tight">
+                <span class="border-b-[5px] border-cyan-400/60">Data Science</span><br>
+                Python, SQL, ML
+              </h3>
+            </div>
+            <div class="mt-7 font-mono text-[10px] text-slate-600">&lt;data_science&gt;</div>
+            <div class="mt-2 pl-5 border-l border-white/10 font-mono text-[11px] leading-6 text-slate-300">
+              <div><span class="text-fuchsia-300">stack</span> = [</div>
+              <div class="pl-4 text-amber-200">"Python", "Pandas",</div>
+              <div class="pl-4 text-amber-200">"NumPy", "Scikit-learn",</div>
+              <div class="pl-4 text-amber-200">"Modeling", "EDA"</div>
+              <div>]</div>
+            </div>
+            <div class="absolute bottom-5 left-5 text-[9px] font-mono text-cyan-300/50">data → model → insight</div>
+          </article>
+
+          <article class="border-y md:border-y xl:border-y border-white/20 bg-[#15161b] p-6 min-h-[300px] relative group hover:bg-[#191a20] transition">
+            <div class="flex items-start gap-4">
+              <div class="w-11 h-11 shrink-0 rounded-xl border border-amber-300/20 bg-amber-300/[.04] flex items-center justify-center text-amber-200">
+                <span class="text-xl">▥</span>
+              </div>
+              <h3 class="text-xl font-extrabold leading-tight">
+                <span class="border-b-[5px] border-amber-400/70">Data Analysis</span><br>
+                BI, EDA, Insights
+              </h3>
+            </div>
+            <div class="mt-7 font-mono text-[10px] text-slate-600">&lt;analysis&gt;</div>
+            <div class="mt-2 pl-5 border-l border-white/10 font-mono text-[11px] leading-6 text-slate-300">
+              <div><span class="text-fuchsia-300">workflow</span> = [</div>
+              <div class="pl-4 text-amber-200">"Clean", "Explore",</div>
+              <div class="pl-4 text-amber-200">"Visualize", "Dashboard",</div>
+              <div class="pl-4 text-amber-200">"Business Insights"</div>
+              <div>]</div>
+            </div>
+            <div class="absolute bottom-5 left-5 text-[9px] font-mono text-amber-300/50">raw → insight → decision</div>
+          </article>
+
+          <article class="border-b md:border-l md:border-b xl:border-l-0 xl:border-b border-white/20 bg-[#15161b] p-6 min-h-[300px] relative group hover:bg-[#191a20] transition">
+            <div class="flex items-start gap-4">
+              <div class="w-11 h-11 shrink-0 rounded-xl border border-indigo-300/20 bg-indigo-300/[.04] flex items-center justify-center text-indigo-200">
+                <span class="text-xl">✦</span>
+              </div>
+              <h3 class="text-xl font-extrabold leading-tight">
+                <span class="border-b-[5px] border-indigo-400/70">AI / ML</span><br>
+                LLMs, CNNs, NLP
+              </h3>
+            </div>
+            <div class="mt-7 font-mono text-[10px] text-slate-600">&lt;model&gt;</div>
+            <div class="mt-2 pl-5 border-l border-white/10 font-mono text-[11px] leading-6 text-slate-300">
+              <div><span class="text-fuchsia-300">pipeline</span> = {</div>
+              <div class="pl-4 text-amber-200">"LLM": "SFT / RLHF",</div>
+              <div class="pl-4 text-amber-200">"Vision": "CNN / OpenCV",</div>
+              <div class="pl-4 text-amber-200">"NLP": "TF-IDF / SVM"</div>
+              <div>}</div>
+            </div>
+            <div class="absolute bottom-5 left-5 text-[9px] font-mono text-indigo-300/50">train → evaluate → improve</div>
+          </article>
+
+          <article class="border-b md:border-l border-white/20 bg-[#15161b] p-6 min-h-[300px] relative group hover:bg-[#191a20] transition">
+            <div class="flex items-start gap-4">
+              <div class="w-11 h-11 shrink-0 rounded-xl border border-emerald-300/20 bg-emerald-300/[.04] flex items-center justify-center text-emerald-200">
+                <span class="text-xl">◉</span>
+              </div>
+              <h3 class="text-xl font-extrabold leading-tight">
+                <span class="border-b-[5px] border-emerald-400/70">Data Engineering</span><br>
+                SQL, ETL, Pipelines
+              </h3>
+            </div>
+            <div class="mt-7 font-mono text-[10px] text-slate-600">&lt;pipeline&gt;</div>
+            <div class="mt-2 pl-5 border-l border-white/10 font-mono text-[11px] leading-6 text-slate-300">
+              <div><span class="text-fuchsia-300">flow</span> = [</div>
+              <div class="pl-4 text-amber-200">"extract", "clean",</div>
+              <div class="pl-4 text-amber-200">"transform", "load",</div>
+              <div class="pl-4 text-amber-200">"PostgreSQL", "Alteryx"</div>
+              <div>]</div>
+            </div>
+            <div class="absolute bottom-5 left-5 text-[9px] font-mono text-emerald-300/50">quality → pipeline → scale</div>
+          </article>
+        </div>
+
+        <div class="reveal mt-10 grid lg:grid-cols-[.7fr_1.3fr] gap-5">
+          <div class="glass rounded-2xl p-6">
+            <p class="font-mono text-[9px] text-slate-600">TECHNICAL TOOLBOX</p>
+            <h3 class="mt-3 text-xl font-bold">What I actually work with.</h3>
+            <p class="mt-3 text-xs leading-6 text-slate-500">Selected skills from my technical portfolio, grouped around the roles I am targeting.</p>
+          </div>
+          <div class="glass rounded-2xl p-5">
+            <div class="flex flex-wrap gap-2 font-mono text-[9px]">
+              <span class="tag">Python</span><span class="tag">Data Analysis</span><span class="tag">SQL</span><span class="tag">Pandas</span><span class="tag">NumPy</span>
+              <span class="tag">Scikit-learn</span><span class="tag">TensorFlow</span><span class="tag">OpenCV</span><span class="tag">TF-IDF</span>
+              <span class="tag">SVM</span><span class="tag">Gemini API</span><span class="tag">LangChain</span><span class="tag">PostgreSQL</span>
+              <span class="tag">Streamlit</span><span class="tag">Power BI</span><span class="tag">Excel</span><span class="tag">Alteryx</span><span class="tag">Selenium</span>
+              <span class="tag">PyQt5</span><span class="tag">SFT</span><span class="tag">RLHF</span><span class="tag">LLM Evaluation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal mt-10 glass rounded-2xl p-6 sm:p-8 border-l-2 border-cyan-300/50">
+          <p class="text-lg sm:text-xl leading-8 text-slate-200">“The goal isn't just to train a model. It's to understand the problem well enough that the model becomes useful.”</p>
+          <p class="mt-3 text-[10px] font-mono text-slate-500">— Sambhav Gupta · Data / AI portfolio philosophy</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="py-28 sm:py-36 border-t border-white/5">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 reveal">
+          <div>
+            <p class="font-mono text-[10px] uppercase tracking-[.2em] text-cyan-300/80">02 / Selected Work</p>
+            <h2 class="mt-4 font-display text-4xl sm:text-6xl font-extrabold tracking-[-.05em]">Built to solve<br><span class="text-slate-500">real problems.</span></h2>
+          </div>
+          <p class="max-w-md text-sm leading-6 text-slate-500">Projects are presented by medium — AI assistant, computer vision, data application and NLP — rather than as a generic card grid.</p>
+        </div>
+
+        <!-- Featured: ADITI -->
+        <article class="reveal mt-16 grid lg:grid-cols-[1fr_.9fr] gap-10 items-center">
+          <div>
+            <div class="text-[10px] font-mono text-cyan-300">FEATURED / AI ASSISTANT</div>
+            <h3 class="mt-3 text-3xl sm:text-4xl font-display font-extrabold tracking-tight">A.D.I.T.I.</h3>
+            <p class="mt-2 text-slate-400">Advanced Desktop Intelligent Technical Interface</p>
+            <div class="mt-6 flex flex-wrap gap-2">
+              <span class="tag">Python</span><span class="tag">Gemini API</span><span class="tag">Selenium</span><span class="tag">PyQt5</span><span class="tag">Multithreading</span>
+            </div>
+            <div class="mt-7 space-y-4 text-sm leading-6 text-slate-400">
+              <p><span class="text-white font-semibold">Why?</span> A desktop assistant needs to combine conversational intelligence with real-time information and actions without freezing the interface.</p>
+              <p><span class="text-white font-semibold">Solution.</span> A modular assistant with a decision layer for general vs. real-time queries, plus background threads for speech, web workflows and AI tasks.</p>
+            </div>
+            <button class="project-open mt-7 rounded-xl bg-white text-slate-950 px-5 py-3 text-xs font-bold hover:bg-cyan-100 transition" data-project="aditi">View Case Study →</button>
+          </div>
+
+          <div class="flex justify-center lg:justify-end">
+            <div class="phone-shell relative w-[250px] h-[500px] rounded-[42px] border-[7px] border-slate-700 bg-slate-950 shadow-2xl">
+              <div class="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 rounded-b-2xl bg-slate-800 z-10"></div>
+              <div class="absolute inset-2 rounded-[34px] overflow-hidden bg-[#070b12]">
+                <div class="px-5 pt-8">
+                  <div class="flex justify-between text-[8px] text-slate-500 font-mono"><span>09:41</span><span>AI ONLINE</span></div>
+                  <div class="mt-10 text-center">
+                    <div class="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-cyan-300/30 to-indigo-500/10 border border-cyan-300/30 flex items-center justify-center shadow-glow">
+                      <span class="text-2xl">✦</span>
+                    </div>
+                    <p class="mt-4 font-bold text-white">A.D.I.T.I.</p>
+                    <p class="text-[8px] text-cyan-200/70 font-mono mt-1">READY FOR COMMAND</p>
+                  </div>
+                  <div class="mt-10 space-y-2">
+                    <div class="rounded-xl bg-white/5 border border-white/5 p-3 text-[8px] text-slate-400">“Search today's ML news.”</div>
+                    <div class="rounded-xl bg-cyan-300/10 border border-cyan-300/10 p-3 text-[8px] text-cyan-100">Fetching real-time information…</div>
+                  </div>
+                  <div class="mt-8 grid grid-cols-2 gap-2 text-[8px] font-mono">
+                    <div class="rounded-lg bg-white/5 p-3 text-slate-500">WEB<br><b class="text-cyan-200">READY</b></div>
+                    <div class="rounded-lg bg-white/5 p-3 text-slate-500">VOICE<br><b class="text-emerald-200">READY</b></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- SmartPark -->
+        <article class="reveal mt-32 grid lg:grid-cols-[.9fr_1.1fr] gap-10 items-center">
+          <div class="order-2 lg:order-1">
+            <div class="laptop-shell relative mx-auto max-w-[600px]">
+              <div class="rounded-2xl border border-slate-600/70 bg-slate-900 p-2 shadow-2xl">
+                <div class="rounded-xl overflow-hidden border border-white/5 bg-[#081018]">
+                  <div class="h-8 bg-slate-950 flex items-center gap-1.5 px-3">
+                    <span class="w-2 h-2 rounded-full bg-red-400/70"></span><span class="w-2 h-2 rounded-full bg-amber-300/70"></span><span class="w-2 h-2 rounded-full bg-emerald-400/70"></span>
+                    <span class="ml-3 text-[8px] font-mono text-slate-600">smartpark / vision-monitor</span>
+                  </div>
+                  <div class="p-5">
+                    <div class="grid grid-cols-3 gap-3">
+                      <div class="col-span-2 rounded-xl border border-cyan-300/10 bg-black/30 p-3 relative overflow-hidden h-44">
+                        <div class="scanline absolute inset-x-0 -top-full h-20"></div>
+                        <div class="grid grid-cols-5 gap-2 h-full items-center">
+                          <span class="h-14 rounded bg-emerald-400/20 border border-emerald-300/30"></span><span class="h-14 rounded bg-red-400/20 border border-red-300/30"></span><span class="h-14 rounded bg-emerald-400/20 border border-emerald-300/30"></span><span class="h-14 rounded bg-red-400/20 border border-red-300/30"></span><span class="h-14 rounded bg-emerald-400/20 border border-emerald-300/30"></span>
+                        </div>
+                        <div class="absolute bottom-3 left-3 text-[8px] font-mono text-cyan-200">CAM_01 · LIVE</div>
+                      </div>
+                      <div class="space-y-3">
+                        <div class="rounded-xl bg-white/5 p-3"><div class="text-[8px] text-slate-600">EMPTY</div><div class="text-xl font-bold text-emerald-300">18</div></div>
+                        <div class="rounded-xl bg-white/5 p-3"><div class="text-[8px] text-slate-600">OCCUPIED</div><div class="text-xl font-bold text-red-300">12</div></div>
+                      </div>
+                    </div>
+                    <div class="mt-4 rounded-xl bg-white/5 p-4">
+                      <div class="flex justify-between text-[8px] font-mono text-slate-500"><span>OCCUPANCY</span><span>40%</span></div>
+                      <div class="mt-2 h-1.5 rounded-full bg-white/5 overflow-hidden"><div class="dashboard-bar h-full w-2/5 bg-gradient-to-r from-cyan-300 to-indigo-400"></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mx-12 h-5 bg-slate-700/70 rounded-b-xl"></div>
+              <div class="mx-auto w-44 h-2 bg-slate-800 rounded-b-full"></div>
+            </div>
+          </div>
+          <div class="order-1 lg:order-2">
+            <div class="text-[10px] font-mono text-emerald-300">COMPUTER VISION / DESKTOP TOOL</div>
+            <h3 class="mt-3 text-3xl sm:text-4xl font-display font-extrabold tracking-tight">SmartPark Vision</h3>
+            <p class="mt-2 text-slate-400">Parking monitoring, slot detection and automated billing.</p>
+            <div class="mt-6 flex flex-wrap gap-2"><span class="tag">OpenCV</span><span class="tag">Python</span><span class="tag">NumPy</span></div>
+            <div class="mt-7 space-y-4 text-sm leading-6 text-slate-400">
+              <p><span class="text-white font-semibold">Why?</span> Manual parking monitoring is slow and inconsistent when lighting and shadows change.</p>
+              <p><span class="text-white font-semibold">Solution.</span> A lightweight vision pipeline using adaptive thresholding, pixel-counting logic, coordinate mapping and time-based billing.</p>
+            </div>
+            <button class="project-open mt-7 rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-xs font-semibold hover:border-emerald-300/30 transition" data-project="smartpark">View Case Study →</button>
+          </div>
+        </article>
+
+        <!-- AtliQ -->
+        <article class="reveal mt-32 grid lg:grid-cols-[1fr_.95fr] gap-10 items-center">
+          <div>
+            <div class="text-[10px] font-mono text-indigo-300">LLM / DATABASE ENGINEERING</div>
+            <h3 class="mt-3 text-3xl sm:text-4xl font-display font-extrabold tracking-tight">AtliQ T-Shirts Inventory Helper</h3>
+            <p class="mt-2 text-slate-400">Natural language questions over a PostgreSQL inventory database.</p>
+            <div class="mt-6 flex flex-wrap gap-2"><span class="tag">LangChain</span><span class="tag">Gemini</span><span class="tag">PostgreSQL</span><span class="tag">Streamlit</span></div>
+            <div class="mt-7 space-y-4 text-sm leading-6 text-slate-400">
+              <p><span class="text-white font-semibold">Why?</span> Business users should not need to write SQL just to answer inventory questions.</p>
+              <p><span class="text-white font-semibold">Solution.</span> A schema-aware natural-language-to-SQL workflow that turns questions into executable queries and returns business-ready answers.</p>
+            </div>
+            <div class="mt-7 rounded-2xl glass p-4 font-mono text-[10px]">
+              <div class="text-slate-600">// architecture</div>
+              <div class="mt-2 flex flex-wrap gap-2"><span class="rounded-lg bg-cyan-300/10 px-2 py-1 text-cyan-200">Question</span><span class="text-slate-600">→</span><span class="rounded-lg bg-indigo-300/10 px-2 py-1 text-indigo-200">LLM</span><span class="text-slate-600">→</span><span class="rounded-lg bg-emerald-300/10 px-2 py-1 text-emerald-200">SQL</span><span class="text-slate-600">→</span><span class="rounded-lg bg-white/5 px-2 py-1 text-slate-300">PostgreSQL</span></div>
+            </div>
+            <a href="https://github.com/SambhavGupta8085/AtliQ-T-Shirts-Database-Q-A" target="_blank" class="inline-block mt-7 rounded-xl bg-indigo-400 text-slate-950 px-5 py-3 text-xs font-bold hover:bg-indigo-300 transition">Open GitHub ↗</a>
+          </div>
+          <div class="glass rounded-3xl p-4 shadow-card">
+            <div class="rounded-2xl border border-white/10 bg-[#070b12] overflow-hidden">
+              <div class="px-4 py-3 border-b border-white/5 flex justify-between"><span class="font-mono text-[9px] text-slate-500">inventory_helper</span><span class="text-[9px] text-emerald-300">connected</span></div>
+              <div class="p-5">
+                <div class="text-[9px] text-slate-600 font-mono">ASK THE DATABASE</div>
+                <div class="mt-3 rounded-xl bg-white/5 p-4 text-xs text-slate-300">How many Levi's t-shirts are left?</div>
+                <div class="mt-4 text-[9px] font-mono text-slate-600">GENERATED SQL</div>
+                <div class="mt-2 rounded-xl bg-black/40 border border-white/5 p-4 text-[9px] leading-5 font-mono"><span class="text-fuchsia-300">SELECT</span> SUM(stock)<br><span class="text-fuchsia-300">FROM</span> inventory<br><span class="text-fuchsia-300">WHERE</span> brand = <span class="text-emerald-300">'Levi'</span>;</div>
+                <div class="mt-4 rounded-xl border border-emerald-300/10 bg-emerald-300/5 p-4"><div class="text-[9px] text-emerald-300">RESULT</div><div class="mt-1 text-2xl font-bold text-white">1,284 <span class="text-xs text-slate-500">units</span></div></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Resume classifier -->
+        <article class="reveal mt-32 grid lg:grid-cols-[.9fr_1.1fr] gap-10 items-center">
+          <div class="order-2 lg:order-1 glass rounded-3xl p-4 shadow-card">
+            <div class="rounded-2xl bg-[#f8fafc] p-4 text-slate-900">
+              <div class="flex items-center justify-between"><div class="font-bold text-sm">Resume Classifier</div><span class="rounded-full bg-indigo-100 text-indigo-700 px-2 py-1 text-[8px]">Streamlit</span></div>
+              <div class="mt-5 rounded-xl border-2 border-dashed border-slate-200 p-7 text-center"><div class="text-3xl">📄</div><div class="mt-2 text-xs font-semibold">Drop resume PDF / DOCX</div><div class="mt-1 text-[9px] text-slate-400">Extract → clean → classify</div></div>
+              <div class="mt-4 grid grid-cols-3 gap-2 text-[8px]"><div class="rounded-lg bg-slate-100 p-3"><b>TF-IDF</b><br><span class="text-slate-400">vectorize</span></div><div class="rounded-lg bg-slate-100 p-3"><b>SVM</b><br><span class="text-slate-400">predict</span></div><div class="rounded-lg bg-slate-100 p-3"><b>92%</b><br><span class="text-slate-400">confidence</span></div></div>
+            </div>
+          </div>
+          <div class="order-1 lg:order-2">
+            <div class="text-[10px] font-mono text-fuchsia-300">NLP / WEB APPLICATION</div>
+            <h3 class="mt-3 text-3xl sm:text-4xl font-display font-extrabold tracking-tight">Resume Screening & Classification</h3>
+            <p class="mt-2 text-slate-400">An NLP workflow that turns unstructured resumes into useful candidate categories.</p>
+            <div class="mt-6 flex flex-wrap gap-2"><span class="tag">Python</span><span class="tag">TF-IDF</span><span class="tag">SVM</span><span class="tag">Regex</span><span class="tag">Streamlit</span></div>
+            <div class="mt-7 space-y-4 text-sm leading-6 text-slate-400">
+              <p><span class="text-white font-semibold">Why?</span> Manual resume screening is repetitive when a hiring team needs to route many unstructured documents.</p>
+              <p><span class="text-white font-semibold">Solution.</span> Extract PDF/DOCX text, clean it with regex, transform it using TF-IDF and classify it with an SVM model.</p>
+            </div>
+            <a href="https://github.com/SambhavGupta8085/NLP-resume-Classification" target="_blank" class="inline-block mt-7 rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-xs font-semibold hover:border-fuchsia-300/30 transition">Open GitHub ↗</a>
+          </div>
+        </article>
+
+        <!-- Project filter -->
+        <div class="reveal mt-28 border-t border-white/5 pt-14">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
+            <div>
+              <p class="font-mono text-[10px] text-slate-500">MORE WORK</p>
+              <h3 class="mt-2 text-2xl font-bold">Project archive</h3>
+            </div>
+            <div id="filters" class="flex flex-wrap gap-2">
+              <button class="project-filter active rounded-xl border border-white/10 px-3 py-2 text-[10px] font-mono text-slate-400" data-filter="all">All</button>
+              <button class="project-filter rounded-xl border border-white/10 px-3 py-2 text-[10px] font-mono text-slate-400" data-filter="data">Data</button>
+              <button class="project-filter rounded-xl border border-white/10 px-3 py-2 text-[10px] font-mono text-slate-400" data-filter="ai">AI / ML</button>
+              <button class="project-filter rounded-xl border border-white/10 px-3 py-2 text-[10px] font-mono text-slate-400" data-filter="vision">Vision</button>
+              <button class="project-filter rounded-xl border border-white/10 px-3 py-2 text-[10px] font-mono text-slate-400" data-filter="research">Research</button>
+            </div>
+          </div>
+          <div id="archive" class="mt-7 grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research" class="py-28 sm:py-36 border-t border-white/5">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl reveal">
+          <p class="font-mono text-[10px] uppercase tracking-[.2em] text-cyan-300/80">03 / Research</p>
+          <h2 class="mt-4 font-display text-4xl sm:text-6xl font-extrabold tracking-[-.05em]">Academic work,<br><span class="text-slate-500">measured carefully.</span></h2>
+          <p class="mt-6 text-slate-400 leading-7">Two research projects connect applied machine learning with real datasets: medical image classification and student stress prediction.</p>
+        </div>
+
+        <div class="mt-14 space-y-6">
+          <article class="reveal glass rounded-3xl p-5 sm:p-7 grid lg:grid-cols-[1.1fr_.9fr] gap-8 items-center">
+            <div>
+              <div class="font-mono text-[9px] text-cyan-300">PUBLICATION · TECHRXIV / IJSCI MATERIAL</div>
+              <h3 class="mt-3 text-2xl sm:text-3xl font-bold">Deep Learning-Based Classification of Stroke MRI Scans using Convolutional Neural Networks (CNNs)</h3>
+              <p class="mt-4 text-sm text-slate-400 leading-6">A custom CNN pipeline for classifying Ischemic Stroke, Hemorrhagic Stroke and Normal Brain from a curated set of <span class="text-white">1,865</span> non-contrast CT images.</p>
+              <div class="mt-5 flex flex-wrap gap-2"><span class="tag">CNN</span><span class="tag">TensorFlow</span><span class="tag">OpenCV</span><span class="tag">1,865 images</span><span class="tag">≈66% validation accuracy</span></div>
+              <a href="https://www.techrxiv.org/doi/pdf/10.36227/techrxiv.175037471.14454909/v1" target="_blank" class="inline-block mt-7 rounded-xl bg-white text-slate-950 px-5 py-3 text-xs font-bold">View Publication ↗</a>
+            </div>
+            <div class="rounded-2xl bg-white p-3">
+              <img src="assets/confusion-matrix.png" alt="Stroke classification confusion matrix" class="w-full max-h-72 object-contain rounded-lg">
+            </div>
+          </article>
+
+          <article class="reveal glass rounded-3xl p-5 sm:p-7 grid lg:grid-cols-[.9fr_1.1fr] gap-8 items-center">
+            <div class="rounded-2xl bg-white p-3 order-2 lg:order-1">
+              <img src="assets/model-accuracy.png" alt="Student stress model accuracy comparison" class="w-full max-h-72 object-contain rounded-lg">
+            </div>
+            <div class="order-1 lg:order-2">
+              <div class="font-mono text-[9px] text-indigo-300">PUBLICATION · IJSRED</div>
+              <h3 class="mt-3 text-2xl sm:text-3xl font-bold">Integrating Survey Data and Biotechnological Biomarkers for Student Stress Prediction Using Machine Learning</h3>
+              <p class="mt-4 text-sm text-slate-400 leading-6">Primary data from <span class="text-white">200 students</span> was cleaned, encoded and normalized, then compared across Logistic Regression, Random Forest and SVM.</p>
+              <div class="mt-5 flex flex-wrap gap-2"><span class="tag">Machine Learning</span><span class="tag">Predictive Modeling</span><span class="tag">Python</span><span class="tag">SVM · 91.38%</span></div>
+              <a href="https://ijsred.com/volume8/issue5/IJSRED-V8I5P53.pdf" target="_blank" class="inline-block mt-7 rounded-xl bg-indigo-400 text-slate-950 px-5 py-3 text-xs font-bold">Read Publication ↗</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="py-28 sm:py-36 border-t border-white/5">
+      <div class="mx-auto max-w-5xl px-4 sm:px-6">
+        <div class="reveal">
+          <p class="font-mono text-[10px] uppercase tracking-[.2em] text-cyan-300/80">04 / Experience</p>
+          <h2 class="mt-4 font-display text-4xl sm:text-6xl font-extrabold tracking-[-.05em]">Professional<br><span class="text-slate-500">experience.</span></h2>
+        </div>
+
+        <div class="relative mt-16">
+          <div class="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-cyan-300/60 via-indigo-400/40 to-transparent"></div>
+
+          <article class="reveal relative pl-9 pb-14">
+            <div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-cyan-300 shadow-[0_0_20px_rgba(34,211,238,.5)]"></div>
+            <div class="flex flex-wrap items-center gap-3">
+              <h3 class="text-xl font-bold">LLM Post-Training Intern</h3><span class="tag">Ethara.ai</span>
+            </div>
+            <p class="mt-2 font-mono text-[10px] text-slate-500">2026 · Remote</p>
+            <p class="mt-5 text-sm leading-7 text-slate-400">Worked on LLM post-training, evaluation and alignment workflows, including instruction-data curation, model response evaluation and preference-based feedback processes.</p>
+            <div class="mt-5 flex flex-wrap gap-2"><span class="tag">LLM Evaluation</span><span class="tag">SFT</span><span class="tag">RLHF</span><span class="tag">Alignment</span></div>
+          </article>
+
+          <article class="reveal relative pl-9 pb-14">
+            <div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-indigo-300 shadow-[0_0_20px_rgba(129,140,248,.4)]"></div>
+            <div class="flex flex-wrap items-center gap-3">
+              <h3 class="text-xl font-bold">Data Analyst & Product Manager Intern</h3><span class="tag">Ekanga</span>
+            </div>
+            <p class="mt-2 font-mono text-[10px] text-slate-500">Nov 2024 – May 2025 · Gwalior / Virtual</p>
+            <p class="mt-5 text-sm leading-7 text-slate-400">Worked across analytics, product workflows, dashboards and automation. Built Power BI reporting and used SQL/Python to connect marketing data with business performance.</p>
+            <div class="mt-5 flex flex-wrap gap-2"><span class="tag">Power BI</span><span class="tag">SQL</span><span class="tag">Python</span><span class="tag">Product Analytics</span></div>
+          </article>
+
+          <article class="reveal relative pl-9">
+            <div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-emerald-300 shadow-[0_0_20px_rgba(52,211,153,.4)]"></div>
+            <h3 class="text-xl font-bold">Certifications & Training</h3>
+            <p class="mt-5 text-sm leading-7 text-slate-400">Google AI-ML Internship · Alteryx Data Process Automation · IBM Python 101 for Data Science · NPTEL IIT Roorkee Soft Skills Elite.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CREATOR / SOCIAL PROOF -->
+    <section class="py-24 border-t border-white/5">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="reveal grid lg:grid-cols-[.8fr_1.2fr] gap-10 items-center">
+          <div>
+            <p class="font-mono text-[10px] uppercase tracking-[.2em] text-indigo-300/80">05 / Beyond the Portfolio</p>
+            <h2 class="mt-4 text-4xl font-display font-extrabold">Builder.<br>Researcher.<br>Creator.</h2>
+            <p class="mt-5 text-sm leading-7 text-slate-500">Alongside data and AI, I have built a substantial YouTube presence around gaming and video content.</p>
+          </div>
+          <div class="grid sm:grid-cols-3 gap-4">
+            <a href="https://www.youtube.com/channel/UCC0pdRQiSBqIxLo1jB67Neg/" target="_blank" class="glass rounded-2xl p-5 hover:border-red-400/30 transition">
+              <div class="text-red-300 text-xl">▶</div><h3 class="mt-5 font-bold text-sm">YouTube</h3><p class="mt-2 text-[10px] text-slate-500">Gaming / creator channel</p>
+            </a>
+            <a href="https://www.youtube.com/@SGSega" target="_blank" class="glass rounded-2xl p-5 hover:border-red-400/30 transition">
+              <div class="text-red-300 text-xl">▶</div><h3 class="mt-5 font-bold text-sm">SG Sega</h3><p class="mt-2 text-[10px] text-slate-500">GTA 5 / gameplay / shorts</p>
+            </a>
+            <div class="glass rounded-2xl p-5">
+              <div class="text-amber-200 text-xl">★</div><h3 class="mt-5 font-bold text-sm">Silver Play Button</h3><p class="mt-2 text-[10px] text-slate-500">Creator milestone</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-28 sm:py-36 border-t border-white/5">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-start">
+          <div class="reveal">
+            <p class="font-mono text-[10px] uppercase tracking-[.2em] text-cyan-300/80">06 / Contact</p>
+            <h2 class="mt-4 text-4xl sm:text-6xl font-display font-extrabold tracking-[-.05em]">Let's build<br><span class="text-slate-500">something useful.</span></h2>
+            <p class="mt-6 max-w-lg text-sm leading-7 text-slate-500">Open to Data Science, Machine Learning, AI/LLM and Data Engineering opportunities, internships and interesting collaborations.</p>
+
+            <a href="mailto:sanskargupta181@gmail.com" class="mt-8 inline-block text-lg text-cyan-200 hover:text-white transition">sanskargupta181@gmail.com</a>
+            <p class="mt-3 text-xs text-slate-600">Gwalior, India · Open to global remote & relocation</p>
+
+            <div class="mt-7 flex flex-wrap gap-3">
+              <a href="https://github.com/SambhavGupta8085" target="_blank" class="tag hover:border-cyan-300/30 transition">GitHub ↗</a>
+              <a href="https://in.linkedin.com/in/sambhavgupta181" target="_blank" class="tag hover:border-cyan-300/30 transition">LinkedIn ↗</a>
+              <a href="https://www.youtube.com/@SGSega" target="_blank" class="tag hover:border-cyan-300/30 transition">YouTube ↗</a>
+            </div>
+          </div>
+
+          <form id="contactForm" class="reveal glass rounded-3xl p-5 sm:p-7">
+            <div class="grid gap-4">
+              <label class="text-[10px] font-mono text-slate-500">NAME
+                <input required name="name" class="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none focus:border-cyan-300/40" placeholder="Your name">
+              </label>
+              <label class="text-[10px] font-mono text-slate-500">EMAIL
+                <input required type="email" name="email" class="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none focus:border-cyan-300/40" placeholder="you@example.com">
+              </label>
+              <label class="text-[10px] font-mono text-slate-500">MESSAGE
+                <textarea required name="message" rows="6" class="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none focus:border-cyan-300/40 resize-none" placeholder="Tell me about the problem you're solving..."></textarea>
+              </label>
+              <button class="mt-1 rounded-xl bg-cyan-300 text-slate-950 px-5 py-3.5 text-sm font-bold hover:bg-cyan-200 transition" type="submit">Send Message →</button>
+              <p id="formNote" class="text-[10px] text-slate-600">Messages are prepared for <span class="text-cyan-200">sanskargupta181@gmail.com</span>. For direct server-side delivery without opening an email app, connect a form service such as Formspree or Web3Forms.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer class="border-t border-white/5 py-8">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row gap-4 justify-between text-[10px] font-mono text-slate-600">
+        <span>© 2026 Sambhav Gupta.</span>
+        <span>Designed & built with precision.</span>
+        <a href="#home" class="text-cyan-300/70 hover:text-cyan-200">Back to top ↑</a>
+      </div>
+    </footer>
+  </main>
+
+  <!-- CASE STUDY MODAL -->
+  <div id="modal" class="modal fixed inset-0 z-[70] bg-black/70 backdrop-blur-md p-4 flex items-center justify-center">
+    <div class="modal-panel max-w-2xl w-full max-h-[85vh] overflow-y-auto glass rounded-3xl p-6 sm:p-8 shadow-2xl">
+      <div class="flex items-start justify-between gap-6">
+        <div><p id="modalKicker" class="font-mono text-[9px] text-cyan-300"></p><h3 id="modalTitle" class="mt-2 text-2xl sm:text-3xl font-bold"></h3></div>
+        <button id="modalClose" class="rounded-xl border border-white/10 p-2 text-slate-400 hover:text-white">✕</button>
+      </div>
+      <div id="modalBody" class="mt-6 text-sm leading-7 text-slate-400"></div>
+    </div>
+  </div>
+
+  <script>
+    const projects = [
+      {title:'Maa Durga Sales Dashboard', category:'data', type:'Data Analytics', icon:'▥', description:'Interactive Power BI dashboard for sales performance, revenue trends, product performance and KPIs.', repo:'https://github.com/SambhavGupta8085'},
+      {title:'PDF-to-Smart-SVG Pipeline', category:'data', type:'Automation', icon:'PDF', description:'Python pipeline for transforming PDF documents into structured SVG outputs.', repo:'https://github.com/SambhavGupta8085'},
+      {title:'EduBot — AI Study Companion', category:'ai', type:'Conversational AI', icon:'✦', description:'Knowledge-base chatbot that organizes notes, syllabus details and exam questions for students.', repo:'https://github.com/SambhavGupta8085'},
+      {title:'SmartPark Vision', category:'vision', type:'Computer Vision', icon:'◉', description:'Real-time parking slot detection with adaptive thresholding, occupancy logic and automated billing.', repo:'https://github.com/SambhavGupta8085/Car-Parking-ITM-Project'},
+      {title:'NLP Resume Classification', category:'ai', type:'NLP / ML', icon:'{ }', description:'PDF/DOCX extraction, regex cleaning, TF-IDF vectors and SVM classification in Streamlit.', repo:'https://github.com/SambhavGupta8085/NLP-resume-Classification'},
+      {title:'Stroke CT Classification', category:'research', type:'Research / CNN', icon:'MRI', description:'CNN classification study using 1,865 curated CT images.', repo:'https://www.techrxiv.org/doi/pdf/10.36227/techrxiv.175037471.14454909/v1'},
+      {title:'Student Stress Prediction', category:'research', type:'Research / ML', icon:'91%', description:'Primary survey dataset from 200 students benchmarked across Logistic Regression, Random Forest and SVM.', repo:'https://ijsred.com/volume8/issue5/IJSRED-V8I5P53.pdf'},
+      {title:'AtliQ Text-to-SQL', category:'ai', type:'LLM / Database', icon:'SQL', description:'Natural-language business questions translated into executable PostgreSQL queries.', repo:'https://github.com/SambhavGupta8085/AtliQ-T-Shirts-Database-Q-A'},
+      {title:'A.D.I.T.I. AI Assistant', category:'ai', type:'Generative AI / Automation', icon:'AI', description:'Modular desktop assistant using Gemini, automation modules, speech and real-time workflows.', repo:'https://github.com/SambhavGupta8085'}
+    ];
+
+    const modalData = {
+      aditi: {
+        kicker:'A.D.I.T.I. / CASE STUDY',
+        title:'Advanced Desktop Intelligent Technical Interface',
+        body:`<p><b class="text-white">Problem:</b> A useful desktop assistant must respond conversationally while also performing real-time actions without making the interface feel frozen.</p>
+        <p class="mt-4"><b class="text-white">Solution:</b> A modular Python assistant with a central decision layer, Gemini API integration, Selenium automation, PyQt5 UI and multithreading to separate heavy tasks from the interface.</p>
+        <p class="mt-4"><b class="text-white">Result:</b> A single interface that connects conversational AI, automation and real-time workflows.</p>`
+      },
+      smartpark: {
+        kicker:'SMARTPARK VISION / CASE STUDY',
+        title:'Computer Vision for Parking',
+        body:`<p><b class="text-white">Problem:</b> Parking operators need a lightweight way to identify occupied and empty slots under changing outdoor lighting.</p>
+        <p class="mt-4"><b class="text-white">Solution:</b> OpenCV-based adaptive thresholding, coordinate mapping and pixel-counting logic, combined with entry/exit timestamps for automated fee calculation.</p>
+        <p class="mt-4"><b class="text-white">Result:</b> A practical monitoring workflow that turns camera frames into occupancy and billing information.</p>`
+      }
+    };
+
+    const archive = document.getElementById('archive');
+    const filters = document.querySelectorAll('.project-filter');
+
+    function renderProjects(filter='all') {
+      archive.innerHTML = '';
+      projects.filter(p => filter === 'all' || p.category === filter).forEach((p, i) => {
+        const el = document.createElement('article');
+        el.className = 'glass rounded-2xl p-5 hover:-translate-y-1 hover:border-cyan-300/20 transition duration-300 reveal show';
+        el.innerHTML = `
+          <div class="flex items-start justify-between gap-4">
+            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xs font-mono text-cyan-200">${p.icon}</div>
+            <span class="text-[9px] font-mono text-slate-600">${String(i+1).padStart(2,'0')}</span>
+          </div>
+          <p class="mt-7 text-[9px] font-mono text-slate-500">${p.type}</p>
+          <h3 class="mt-2 font-bold text-white">${p.title}</h3>
+          <p class="mt-3 text-xs leading-6 text-slate-500">${p.description}</p>
+          <a href="${p.repo}" target="_blank" class="inline-block mt-5 text-[10px] font-mono text-cyan-300 hover:text-white">View project ↗</a>
+        `;
+        archive.appendChild(el);
+      });
+    }
+    renderProjects();
+
+    filters.forEach(btn => btn.addEventListener('click', () => {
+      filters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProjects(btn.dataset.filter);
+    }));
+
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    document.querySelectorAll('.mobile-link').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+    // Sticky nav state
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('py-0', window.scrollY > 30);
+    }, {passive:true});
+
+    // Reveal on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Active navigation
+    const sections = [...document.querySelectorAll('main section[id]')];
+    const links = [...document.querySelectorAll('.nav-link')];
+    const navObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+entry.target.id));
+        }
+      });
+    }, {rootMargin:'-40% 0px -50% 0px'});
+    sections.forEach(s => navObserver.observe(s));
+
+    // 3D tilt
+    document.querySelectorAll('[data-tilt]').forEach(card => {
+      card.addEventListener('pointermove', e => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX-r.left)/r.width-.5;
+        const y = (e.clientY-r.top)/r.height-.5;
+        card.style.transform = `perspective(900px) rotateX(${y*-5}deg) rotateY(${x*7}deg)`;
+      });
+      card.addEventListener('pointerleave', () => card.style.transform = '');
+    });
+
+    // Case-study modal
+    const modal = document.getElementById('modal');
+    const closeModal = () => modal.classList.remove('open');
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+    document.querySelectorAll('.project-open').forEach(btn => btn.addEventListener('click', () => {
+      const data = modalData[btn.dataset.project];
+      document.getElementById('modalKicker').textContent = data.kicker;
+      document.getElementById('modalTitle').textContent = data.title;
+      document.getElementById('modalBody').innerHTML = data.body;
+      modal.classList.add('open');
+    }));
+
+    // Static-site contact form: mailto fallback
+    document.getElementById('contactForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const form = e.currentTarget;
+      const data = new FormData(form);
+      const name = String(data.get('name') || '').trim();
+      const email = String(data.get('email') || '').trim();
+      const message = String(data.get('message') || '').trim();
+      const subject = encodeURIComponent(`Portfolio enquiry from ${name}`);
+      const body = encodeURIComponent(`Name: ${name}
+Email: ${email}
+
+Message:
+${message}`);
+      window.location.href = `mailto:sanskargupta181@gmail.com?subject=${subject}&body=${body}`;
+      document.getElementById('formNote').textContent = 'Your email client is opening with the message addressed to sanskargupta181@gmail.com.';
+      form.reset();
+    });
+  </script>
+</body>
+</html>
